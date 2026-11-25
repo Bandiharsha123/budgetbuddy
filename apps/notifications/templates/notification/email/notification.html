@@ -1,0 +1,25 @@
+{% extends "notification/email/base.html" %}
+
+{% block content %}
+
+<h2 style="color:#1e293b;">
+    {{ title }}
+</h2>
+
+<p style="font-size:15px; line-height:1.7; color:#475569;">
+    Hello {{ username }},
+</p>
+
+<p style="font-size:15px; line-height:1.7; color:#475569;">
+    {{ message }}
+</p>
+
+<p style="margin-top:30px; color:#475569;">
+    Keep tracking. Keep saving. Keep growing!
+</p>
+
+<p style="color:#2563eb; font-weight:bold;">
+    Team BudgetBuddy
+</p>
+
+{% endblock %}

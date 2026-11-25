@@ -143,7 +143,7 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
-
+DEFAULT_FROM_EMAIL = 'BudgetBuddy <noreply@budgetbuddy.local>'
 
 
 
@@ -191,3 +191,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:5173",
 ]
+
+
+
+
+
+
+

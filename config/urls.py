@@ -22,5 +22,7 @@ urlpatterns = [
     path('api/auth/', include('apps.authentication.urls')),
     path('api/expenses/', include('apps.expenses.urls')),  
     path('api/incomes/', include('apps.incomes.urls')),
-        path('api/budgets/', include('apps.budgets.urls')),    
+    path('api/budgets/', include('apps.budgets.urls')),
+    path('api/goals/', include('apps.goals.urls')),
+    path('api/notifications/', include('apps.notifications.urls')),
 ]

@@ -60,3 +60,45 @@ class BudgetSerializer(serializers.ModelSerializer):
             percentage = (spent / obj.monthly_limit) * 100
             return round(float(percentage), 2)
         return 0.0
+
+
+    
+    def validate(self, attrs):
+        request = self.context.get('request')
+
+        if request and request.user.is_authenticated:
+            category = attrs.get(
+                'category',
+                self.instance.category if self.instance else None
+            )
+
+            month = attrs.get(
+                'month',
+                self.instance.month if self.instance else None
+            )
+
+            year = attrs.get(
+                'year',
+                self.instance.year if self.instance else None
+            )
+
+            existing_budget = Budget.objects.filter(
+                user=request.user,
+                category=category,
+                month=month,
+                year=year
+            )
+
+            if self.instance:
+                existing_budget = existing_budget.exclude(
+                    pk=self.instance.pk
+                )
+
+            if existing_budget.exists():
+                raise serializers.ValidationError(
+                    "You already have a budget for this category "
+                    "in the selected month and year. "
+                    "Please edit your existing budget."
+                )
+
+        return attrs
