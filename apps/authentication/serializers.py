@@ -1,8 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from apps.profiles.models import Profile
-from rest_framework import serializers
-from apps.profiles.models import Profile
 
 User = get_user_model()
 
@@ -11,22 +9,24 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'password', 'role')
+        fields = ('id', 'username', 'email', 'password')
+        read_only_fields = ('id',)
 
     def create(self, validated_data):
         user = User.objects.create_user(
             username=validated_data['username'],
             email=validated_data.get('email', ''),
             password=validated_data['password'],
-            role=validated_data.get('role', 'STUDENT')
+            role='STUDENT'
         )
-        Profile.objects.create(user=user)
+
+        Profile.objects.get_or_create(user=user)
         return user
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'role', 'created_at')
+        fields = ('id', 'username', 'email', 'role', 'date_joined', 'is_active')
 
 
 
@@ -36,10 +36,9 @@ class UserSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username', required=False)
     email = serializers.EmailField(source='user.email', required=False)
-    role = serializers.ChoiceField(
+    role = serializers.CharField(
         source='user.role',
-        choices=User.ROLE_CHOICES,
-        required=False
+        read_only=True
     )
     monthly_income_baseline = serializers.DecimalField(
         source='monthly_income',
@@ -89,7 +88,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         user = instance.user
 
         user_updated = False
-        for attr in ('username', 'email', 'role'):
+        for attr in ('username', 'email'):
             if attr in user_data:
                 setattr(user, attr, user_data[attr])
                 user_updated = True

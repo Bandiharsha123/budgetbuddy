@@ -1,3 +1,14 @@
+# Django collected static files
+config/staticfiles/
+
+# Python cache and test files
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Build files
+build/
+dist/
 # Virtual Environment
 venv/
 env/
@@ -24,3 +35,28 @@ service-account*.json
 .vscode/
 .idea/
 .DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+
+# Environment and secrets
+.env
+.env.*
+firebase-service-account.json
+
+# Node
+node_modules/
+
+# Generated files
+staticfiles/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local Postman metadata
+.postman/
+
+node_modules/
+node_modules/

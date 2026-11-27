@@ -7,6 +7,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
+from django.utils import timezone
 logger = logging.getLogger(__name__)
 
 
@@ -60,28 +61,57 @@ def dispatch_notification(
     message: str,
     send_email: bool = True,
     send_push: bool = True,
+    event_key: str = None,
     **kwargs,
 ):
-    """Creates an in-app Notification record and triggers an FCM push alert."""
-    notification = Notification.objects.create(
-        user=user,
-        notification_type=notification_type,
-        title=title,
-        message=message,
-    )
+    """
+    Creates an in-app notification and dispatches email/push alerts.
+    Uses event_key to prevent duplicate milestone notifications.
+    """
 
-    if send_email:
-        send_email_notification(
+    if event_key:
+        notification, created = Notification.objects.get_or_create(
+            event_key=event_key,
+            defaults={
+                "user": user,
+                "notification_type": notification_type,
+                "title": title,
+                "message": message,
+            },
+        )
+    else:
+        notification = Notification.objects.create(
+            user=user,
+            notification_type=notification_type,
+            title=title,
+            message=message,
+        )
+        created = True
+
+    # Retry failed emails, but never resend successful ones.
+    if send_email and not notification.email_sent:
+        email_success = send_email_notification(
             user=user,
             title=title,
-            body=message
+            body=message,
         )
 
-    if send_push:
-        send_fcm_push(user=user, title=title, body=message)
+        if email_success:
+            notification.email_sent = True
+            notification.email_sent_at = timezone.now()
+            notification.save(
+                update_fields=["email_sent", "email_sent_at"]
+            )
+
+    # Push only when a notification is first created.
+    if send_push and created:
+        send_fcm_push(
+            user=user,
+            title=title,
+            body=message,
+        )
 
     return notification
-
 
 def send_email_notification(user, title: str, body: str) -> bool:
 

@@ -26,6 +26,16 @@ class Notification(Time_Stamped_Model):
     message = models.TextField()
     is_read = models.BooleanField(default=False)
 
+    event_key = models.CharField(
+        max_length=150,
+        unique=True,
+        null=True,
+        blank=True
+    )
+
+    email_sent = models.BooleanField(default=False)
+
+    email_sent_at = models.DateTimeField(null=True, blank=True)
     class Meta:
         ordering = ['-created_at']
 

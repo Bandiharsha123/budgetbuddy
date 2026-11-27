@@ -1,6 +1,6 @@
 import { initializeApp, getApps } from 'firebase/app';
 import { getMessaging, getToken, onMessage, isSupported } from 'firebase/messaging';
-
+import { API_BASE_URL } from './services/api';
 const firebaseConfig = {
   apiKey: "AIzaSyCP4x_sr1PfSYnyBgLh5IxU6ikBM3j6A70",
   authDomain: "budgetbuddy-b31c0.firebaseapp.com",
@@ -41,7 +41,7 @@ export async function requestAndRegisterFCMToken(authToken) {
     });
 
     if (currentToken && authToken) {
-      const response = await fetch('http://127.0.0.1:8000/api/notifications/register-fcm/', {
+      const response = await fetch(`${API_BASE_URL}/notifications/register-fcm/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

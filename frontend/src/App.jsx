@@ -16,8 +16,18 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import {
+  getDashboardAnalytics,
+  getMonthlyAnalytics,
+  getCategoryAnalytics,
+  getBudgetAnalytics,
+  getSavingsAnalytics,
+  getTrendsAnalytics,
+  getFinancialReports,
+} from './services/analyticsService';
+import api from './services/api';
 
-const API_BASE = 'http://127.0.0.1:8000/api';
+const API_BASE = api.defaults.baseURL;
 
 const CATEGORY_COLORS = {
   FOOD: '#f59e0b',
@@ -90,6 +100,22 @@ export default function App() {
   });
   const [authMessage, setAuthMessage] = useState('');
 
+
+
+  const resetMatch = window.location.pathname.match(
+    /^\/reset-password\/([^/]+)\/([^/]+)\/?$/
+  );
+
+  const [authMode, setAuthMode] = useState(
+    resetMatch ? 'reset' : 'login'
+  );
+
+  const [forgotEmail, setForgotEmail] = useState('');
+  const [resetPassword, setResetPassword] = useState('');
+  const [confirmResetPassword, setConfirmResetPassword] = useState('');
+  const [resetMessage, setResetMessage] = useState('');
+  const [resetLoading, setResetLoading] = useState(false);
+
   // --- Responsive Sidebar State ---
   const [isMobile, setIsMobile] = useState(
     typeof window !== 'undefined' ? window.innerWidth <= 900 : false
@@ -151,6 +177,25 @@ export default function App() {
     current_amount: '0.00',
     target_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
   });
+  // --- Analytics State ---
+
+  const [dashboardAnalytics, setDashboardAnalytics] = useState(null);
+
+  const [monthlyAnalytics, setMonthlyAnalytics] = useState([]);
+
+  const [categoryAnalytics, setCategoryAnalytics] = useState([]);
+
+  const [budgetAnalytics, setBudgetAnalytics] = useState(null);
+
+  const [savingsAnalytics, setSavingsAnalytics] = useState(null);
+
+  const [trendsAnalytics, setTrendsAnalytics] = useState([]);
+
+  const [financialReports, setFinancialReports] = useState(null);
+
+  const [analyticsLoading, setAnalyticsLoading] = useState(false);
+
+  const [analyticsError, setAnalyticsError] = useState('');
   const [editingGoalId, setEditingGoalId] = useState(null);
   const [goalError, setGoalError] = useState('');
   const [depositInputs, setDepositInputs] = useState({});
@@ -252,6 +297,65 @@ export default function App() {
     }
   };
 
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    setResetMessage('');
+    setResetLoading(true);
+
+    try {
+      const res = await axios.post(
+        `${API_BASE}/auth/forgot-password/`,
+        { email: forgotEmail }
+      );
+
+      setResetMessage(res.data.detail);
+    } catch (err) {
+      setResetMessage(
+        err.response?.data?.detail || 'Unable to process your request.'
+      );
+    } finally {
+      setResetLoading(false);
+    }
+  };
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    setResetMessage('');
+
+    if (resetPassword !== confirmResetPassword) {
+      setResetMessage('Passwords do not match.');
+      return;
+    }
+
+    setResetLoading(true);
+
+    try {
+      const res = await axios.post(
+        `${API_BASE}/auth/reset-password/`,
+        {
+          uid: resetMatch?.[1],
+          token: resetMatch?.[2],
+          new_password: resetPassword,
+          confirm_password: confirmResetPassword,
+        }
+      );
+
+      setResetMessage(res.data.detail);
+      setResetPassword('');
+      setConfirmResetPassword('');
+    } catch (err) {
+      const errorData = err.response?.data;
+      const message = errorData?.detail || errorData?.new_password;
+
+      setResetMessage(
+        Array.isArray(message) ? message.join(' ') :
+          message || 'Password reset failed. Please try again.'
+      );
+    } finally {
+      setResetLoading(false);
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
@@ -348,6 +452,64 @@ export default function App() {
     }
   };
 
+  // ----------------------------------------------------
+  // Analytics API Fetcher
+  // ----------------------------------------------------
+  const fetchAnalytics = async () => {
+    if (!token) return;
+
+    setAnalyticsLoading(true);
+    setAnalyticsError('');
+
+    const requests = [
+      getDashboardAnalytics(token),
+      getMonthlyAnalytics(token),
+      getCategoryAnalytics(token),
+      getBudgetAnalytics(token),
+      getSavingsAnalytics(token),
+      getTrendsAnalytics(token),
+    ];
+
+    const results = await Promise.allSettled(requests);
+
+    const setters = [
+      (data) => setDashboardAnalytics(data),
+      (data) => setMonthlyAnalytics(data.monthly_data || []),
+      (data) => setCategoryAnalytics(data.categories || []),
+      (data) => setBudgetAnalytics(data),
+      (data) => setSavingsAnalytics(data),
+      (data) => setTrendsAnalytics(data.trends || []),
+    ];
+
+    const names = [
+      'Dashboard',
+      'Monthly analytics',
+      'Category analytics',
+      'Budget analytics',
+      'Savings analytics',
+      'Trends analytics',
+    ];
+
+    const failedRequests = [];
+
+    results.forEach((result, index) => {
+      if (result.status === 'fulfilled') {
+        setters[index](result.value);
+      } else {
+        console.error(`${names[index]} failed:`, result.reason);
+        failedRequests.push(names[index]);
+      }
+    });
+
+    if (failedRequests.length > 0) {
+      setAnalyticsError(
+        `Could not load: ${failedRequests.join(', ')}.`
+      );
+    }
+
+    setAnalyticsLoading(false);
+  };
+
   const fetchAdminUsers = async () => {
     if (!token) return;
     try {
@@ -403,6 +565,7 @@ export default function App() {
       fetchGoals();
       fetchNotifications();
       fetchProfile();
+      fetchAnalytics();
 
       // Register browser FCM device token with Django
       requestAndRegisterFCMToken(token);
@@ -422,6 +585,44 @@ export default function App() {
       };
     }
   }, [token]);
+
+
+  useEffect(() => {
+    if (!token) return;
+
+    const fetchReports = async () => {
+      try {
+        let params = {};
+
+        if (reportYear !== 'ALL') {
+          if (reportMonth === 'ALL') {
+            params = {
+              start_date: `${reportYear}-01-01`,
+              end_date: `${reportYear}-12-31`,
+            };
+          } else {
+            const lastDay = new Date(
+              Number(reportYear),
+              Number(reportMonth),
+              0
+            ).getDate();
+
+            params = {
+              start_date: `${reportYear}-${String(reportMonth).padStart(2, '0')}-01`,
+              end_date: `${reportYear}-${String(reportMonth).padStart(2, '0')}-${lastDay}`,
+            };
+          }
+        }
+
+        const data = await getFinancialReports(token, params);
+        setFinancialReports(data);
+      } catch (error) {
+        console.error('Financial reports failed:', error);
+      }
+    };
+
+    fetchReports();
+  }, [token, reportMonth, reportYear]);
 
   useEffect(() => {
     if (token && profileForm.role === 'ADMIN') {
@@ -792,15 +993,15 @@ export default function App() {
       const errData = err.response?.data;
 
       if (errData?.non_field_errors) {
-          setBudgetError(errData.non_field_errors[0]);
+        setBudgetError(errData.non_field_errors[0]);
       } else if (errData?.detail) {
-          setBudgetError(errData.detail);
+        setBudgetError(errData.detail);
       } else if (typeof errData === 'string') {
-          setBudgetError(errData);
+        setBudgetError(errData);
       } else {
-          setBudgetError(
-              'Unable to create budget. Please check your details and try again.'
-          );
+        setBudgetError(
+          'Unable to create budget. Please check your details and try again.'
+        );
       }
     }
   };
@@ -992,6 +1193,13 @@ export default function App() {
   // Chart Data Computations
   // ----------------------------------------------------
   const categoryChartData = useMemo(() => {
+    if (categoryAnalytics.length > 0) {
+      return categoryAnalytics.map((item) => ({
+        name: item.category,
+        value: Number(item.total_expenses || 0),
+        color: CATEGORY_COLORS[item.category] || '#64748b',
+      }));
+    }
     const grouped = filteredExpenses.reduce((acc, curr) => {
       const cat = curr.category || 'MISCELLANEOUS';
       acc[cat] = (acc[cat] || 0) + parseFloat(curr.amount || 0);
@@ -1003,16 +1211,24 @@ export default function App() {
       value: parseFloat(grouped[cat].toFixed(2)),
       color: CATEGORY_COLORS[cat] || '#64748b',
     }));
-  }, [filteredExpenses]);
+  }, [filteredExpenses, categoryAnalytics]);
 
   const goalsChartData = useMemo(() => {
-    return goals.map((g) => ({
-      name: g.title.length > 14 ? `${g.title.slice(0, 12)}...` : g.title,
-      saved: parseFloat(g.current_amount || 0),
-      target: parseFloat(g.target_amount || 0),
-      progress: g.progress_percentage || 0,
+    const backendGoals = savingsAnalytics?.goals;
+
+    const goalsToDisplay = backendGoals?.length > 0
+      ? backendGoals
+      : goals;
+
+    return goalsToDisplay.map((g) => ({
+      name: g.title?.length > 14
+        ? `${g.title.slice(0, 12)}...`
+        : g.title || 'Untitled',
+      saved: Number(g.current_amount || 0),
+      target: Number(g.target_amount || 0),
+      progress: Number(g.progress_percentage || 0),
     }));
-  }, [goals]);
+  }, [goals, savingsAnalytics]);
 
 
   const monthlyTrendsData = useMemo(() => {
@@ -1070,14 +1286,29 @@ export default function App() {
   ];
 
   // Budget utilization analytics (budget API supplies spent_amount and utilization_percentage).
-  const budgetAnalyticsData = useMemo(() => budgets.map((budget) => ({
-    name: `${budget.category} (${budget.month}/${budget.year})`,
-    category: budget.category,
-    spent: Number(budget.spent_amount || 0),
-    limit: Number(budget.monthly_limit || 0),
-    utilization: Number(budget.utilization_percentage || 0),
-    remaining: Number(budget.remaining_amount || 0),
-  })), [budgets]);
+  const budgetAnalyticsData = useMemo(() => {
+    const backendBudgets = budgetAnalytics?.budgets;
+
+    if (backendBudgets?.length > 0) {
+      return backendBudgets.map((budget) => ({
+        name: `${budget.category} (${budget.month}/${budget.year})`,
+        category: budget.category,
+        spent: Number(budget.spent_amount || 0),
+        limit: Number(budget.budget_limit || 0),
+        utilization: Number(budget.utilization_percentage || 0),
+        remaining: Number(budget.remaining_amount || 0),
+      }));
+    }
+
+    return budgets.map((budget) => ({
+      name: `${budget.category} (${budget.month}/${budget.year})`,
+      category: budget.category,
+      spent: Number(budget.spent_amount || 0),
+      limit: Number(budget.monthly_limit || 0),
+      utilization: Number(budget.utilization_percentage || 0),
+      remaining: Number(budget.remaining_amount || 0),
+    }));
+  }, [budgets, budgetAnalytics]);
 
   const completedGoalsCount = goals.filter((goal) =>
     goal.is_completed || Number(goal.progress_percentage || 0) >= 100
@@ -1151,11 +1382,11 @@ export default function App() {
     },
     ...(isAdmin
       ? [
-          {
-            group: 'ADMINISTRATION',
-            items: [{ id: 'admin', icon: '🛡️', label: 'Admin Panel' }],
-          },
-        ]
+        {
+          group: 'ADMINISTRATION',
+          items: [{ id: 'admin', icon: '🛡️', label: 'Admin Panel' }],
+        },
+      ]
       : []),
   ];
 
@@ -1182,83 +1413,233 @@ export default function App() {
         <div style={ui.authCard}>
           <div style={ui.authBrand}>
             <div style={ui.authIconBox}>💳</div>
-            <h2 style={ui.authTitle}>{isLogin ? 'Welcome Back' : 'Create an Account'}</h2>
+
+            <h2 style={ui.authTitle}>
+              {authMode === 'forgot'
+                ? 'Forgot Password?'
+                : authMode === 'reset'
+                  ? 'Reset Your Password'
+                  : isLogin
+                    ? 'Welcome Back'
+                    : 'Create an Account'}
+            </h2>
+
             <p style={ui.authSubtitle}>
-              {isLogin
-                ? 'Sign in to access your BudgetBuddy workspace'
-                : 'Join BudgetBuddy to manage your personal finances'}
+              {authMode === 'forgot'
+                ? 'Enter your registered email to receive a password reset link.'
+                : authMode === 'reset'
+                  ? 'Create a new password for your BudgetBuddy account.'
+                  : isLogin
+                    ? 'Sign in to access your BudgetBuddy workspace'
+                    : 'Join BudgetBuddy to manage your personal finances'}
             </p>
           </div>
 
-          {authMessage && <div style={ui.errorBanner}>{authMessage}</div>}
+          {/* FORGOT PASSWORD SCREEN */}
+          {authMode === 'forgot' && (
+            <>
+              {resetMessage && (
+                <div style={ui.errorBanner}>{resetMessage}</div>
+              )}
 
-          <form onSubmit={handleAuthSubmit} style={ui.formVertical}>
-            <div style={ui.fieldWrapper}>
-              <label style={ui.label}>Username</label>
-              <input
-                style={ui.input}
-                name="username"
-                placeholder="e.g. johndoe"
-                value={authForm.username}
-                onChange={handleAuthChange}
-                required
-              />
-            </div>
-
-            {!isLogin && (
-              <>
+              <form onSubmit={handleForgotPassword} style={ui.formVertical}>
                 <div style={ui.fieldWrapper}>
                   <label style={ui.label}>Email Address</label>
                   <input
                     style={ui.input}
-                    name="email"
                     type="email"
-                    placeholder="john@example.com"
-                    value={authForm.email}
+                    placeholder="Enter your registered email"
+                    value={forgotEmail}
+                    onChange={(e) => setForgotEmail(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <button
+                  style={ui.btnPrimaryFull}
+                  type="submit"
+                  disabled={resetLoading}
+                >
+                  {resetLoading ? 'Sending...' : 'Send Reset Link'}
+                </button>
+              </form>
+
+              <p style={ui.authSwitch}>
+                Remember your password?{' '}
+                <span
+                  style={ui.linkHighlight}
+                  onClick={() => {
+                    setAuthMode('login');
+                    setIsLogin(true);
+                    setResetMessage('');
+                  }}
+                >
+                  Back to Login
+                </span>
+              </p>
+            </>
+          )}
+
+          {/* RESET PASSWORD SCREEN */}
+          {authMode === 'reset' && (
+            <>
+              {resetMessage && (
+                <div style={ui.errorBanner}>{resetMessage}</div>
+              )}
+
+              <form onSubmit={handleResetPassword} style={ui.formVertical}>
+                <div style={ui.fieldWrapper}>
+                  <label style={ui.label}>New Password</label>
+                  <input
+                    style={ui.input}
+                    type="password"
+                    placeholder="Enter new password"
+                    value={resetPassword}
+                    onChange={(e) => setResetPassword(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div style={ui.fieldWrapper}>
+                  <label style={ui.label}>Confirm New Password</label>
+                  <input
+                    style={ui.input}
+                    type="password"
+                    placeholder="Confirm new password"
+                    value={confirmResetPassword}
+                    onChange={(e) =>
+                      setConfirmResetPassword(e.target.value)
+                    }
+                    required
+                  />
+                </div>
+
+                <button
+                  style={ui.btnPrimaryFull}
+                  type="submit"
+                  disabled={resetLoading}
+                >
+                  {resetLoading ? 'Updating...' : 'Reset Password'}
+                </button>
+              </form>
+
+              <p style={ui.authSwitch}>
+                <span
+                  style={ui.linkHighlight}
+                  onClick={() => {
+                    setAuthMode('login');
+                    setIsLogin(true);
+                    setResetMessage('');
+                  }}
+                >
+                  Back to Login
+                </span>
+              </p>
+            </>
+          )}
+
+          {/* EXISTING LOGIN AND REGISTRATION SCREENS */}
+          {(authMode === 'login' || authMode === 'register') && (
+            <>
+              {authMessage && (
+                <div style={ui.errorBanner}>{authMessage}</div>
+              )}
+
+              <form onSubmit={handleAuthSubmit} style={ui.formVertical}>
+                <div style={ui.fieldWrapper}>
+                  <label style={ui.label}>Username</label>
+                  <input
+                    style={ui.input}
+                    name="username"
+                    placeholder="e.g. johndoe"
+                    value={authForm.username}
                     onChange={handleAuthChange}
                     required
                   />
                 </div>
+
+                {!isLogin && (
+                  <>
+                    <div style={ui.fieldWrapper}>
+                      <label style={ui.label}>Email Address</label>
+                      <input
+                        style={ui.input}
+                        name="email"
+                        type="email"
+                        placeholder="john@example.com"
+                        value={authForm.email}
+                        onChange={handleAuthChange}
+                        required
+                      />
+                    </div>
+
+                    <div style={ui.fieldWrapper}>
+                      <label style={ui.label}>Account Role</label>
+                      <select
+                        style={ui.input}
+                        name="role"
+                        value={authForm.role}
+                        onChange={handleAuthChange}
+                      >
+                        <option value="STUDENT">Student</option>
+                        <option value="PREMIUM">Premium User</option>
+                        <option value="ADMIN">Admin</option>
+                      </select>
+                    </div>
+                  </>
+                )}
+
                 <div style={ui.fieldWrapper}>
-                  <label style={ui.label}>Account Role</label>
-                  <select
+                  <label style={ui.label}>Password</label>
+                  <input
                     style={ui.input}
-                    name="role"
-                    value={authForm.role}
+                    name="password"
+                    type="password"
+                    placeholder="••••••••"
+                    value={authForm.password}
                     onChange={handleAuthChange}
-                  >
-                    <option value="STUDENT">Student (Up to 3 Goals, CSV Export)</option>
-                    <option value="PREMIUM">Premium User (Unlimited Goals, PDF & Excel)</option>
-                    <option value="ADMIN">Admin (Full Platform Access)</option>
-                  </select>
+                    required
+                  />
                 </div>
-              </>
-            )}
 
-            <div style={ui.fieldWrapper}>
-              <label style={ui.label}>Password</label>
-              <input
-                style={ui.input}
-                name="password"
-                type="password"
-                placeholder="••••••••"
-                value={authForm.password}
-                onChange={handleAuthChange}
-                required
-              />
-            </div>
+                <button style={ui.btnPrimaryFull} type="submit">
+                  {isLogin ? 'Sign In' : 'Create Account'}
+                </button>
 
-            <button style={ui.btnPrimaryFull} type="submit">
-              {isLogin ? 'Sign In' : 'Create Account'}
-            </button>
-          </form>
+                {isLogin && (
+                  <p style={{ textAlign: 'right', marginTop: '10px' }}>
+                    <span
+                      style={ui.linkHighlight}
+                      onClick={() => {
+                        setAuthMode('forgot');
+                        setResetMessage('');
+                      }}
+                    >
+                      Forgot Password?
+                    </span>
+                  </p>
+                )}
+              </form>
 
-          <p style={ui.authSwitch}>
-            {isLogin ? "Don't have an account yet? " : 'Already have an account? '}
-            <span style={ui.linkHighlight} onClick={() => setIsLogin(!isLogin)}>
-              {isLogin ? 'Register' : 'Log In'}
-            </span>
-          </p>
+              <p style={ui.authSwitch}>
+                {isLogin
+                  ? "Don't have an account yet? "
+                  : 'Already have an account? '}
+
+                <span
+                  style={ui.linkHighlight}
+                  onClick={() => {
+                    const nextLogin = !isLogin;
+                    setIsLogin(nextLogin);
+                    setAuthMode(nextLogin ? 'login' : 'register');
+                    setAuthMessage('');
+                  }}
+                >
+                  {isLogin ? 'Register' : 'Log In'}
+                </span>
+              </p>
+            </>
+          )}
         </div>
       </div>
     );
@@ -1362,8 +1743,8 @@ export default function App() {
                   backgroundColor: isAdmin
                     ? 'rgba(245, 158, 11, 0.2)'
                     : isPremiumOrAdmin
-                    ? 'rgba(139, 92, 246, 0.25)'
-                    : 'rgba(59, 130, 246, 0.25)',
+                      ? 'rgba(139, 92, 246, 0.25)'
+                      : 'rgba(59, 130, 246, 0.25)',
                   color: isAdmin ? '#fbbf24' : isPremiumOrAdmin ? '#c4b5fd' : '#93c5fd',
                 }}
               >
@@ -1620,52 +2001,84 @@ export default function App() {
           {/* Metric Summary Cards (Shown on Overview & Analytics) */}
           {(activeTab === 'overview' || activeTab === 'analytics') && (
             <section style={ui.metricGrid}>
+              {/* Total Incomes */}
               <div style={ui.statCard}>
                 <div style={ui.statHeader}>
                   <span style={ui.statTitle}>Total Incomes</span>
                   <span style={ui.statIconGreen}>↗</span>
                 </div>
+
                 <div style={{ ...ui.statAmount, color: '#059669' }}>
-                  +₹{(activeTab === 'analytics' ? filteredIncomeTotal : totalIncomeAmount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                  +₹{(
+                    activeTab === 'analytics'
+                      ? filteredIncomeTotal
+                      : (dashboardAnalytics?.total_income ?? totalIncomeAmount)
+                  ).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                 </div>
+
                 <span style={ui.statSub}>Total deposits recorded</span>
               </div>
 
+              {/* Total Expenses */}
               <div style={ui.statCard}>
                 <div style={ui.statHeader}>
                   <span style={ui.statTitle}>Total Expenses</span>
                   <span style={ui.statIconRed}>↘</span>
                 </div>
+
                 <div style={{ ...ui.statAmount, color: '#dc2626' }}>
-                  -₹{(activeTab === 'analytics' ? filteredExpenseTotal : totalExpenseAmount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                  -₹{(
+                    activeTab === 'analytics'
+                      ? filteredExpenseTotal
+                      : (dashboardAnalytics?.total_expenses ?? totalExpenseAmount)
+                  ).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                 </div>
+
                 <span style={ui.statSub}>Total expenditures logged</span>
               </div>
 
+              {/* Net Balance */}
               <div style={ui.statCard}>
                 <div style={ui.statHeader}>
                   <span style={ui.statTitle}>Net Balance</span>
                   <span style={ui.statIconBlue}>=</span>
                 </div>
+
                 <div
                   style={{
                     ...ui.statAmount,
-                    color: (activeTab === 'analytics' ? filteredNetBalance : netBalance) >= 0 ? '#4f46e5' : '#dc2626',
+                    color: (
+                      activeTab === 'analytics'
+                        ? filteredNetBalance
+                        : (dashboardAnalytics?.balance ?? netBalance)
+                    ) >= 0 ? '#4f46e5' : '#dc2626',
                   }}
                 >
-                  ₹{(activeTab === 'analytics' ? filteredNetBalance : netBalance).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                  ₹{(
+                    activeTab === 'analytics'
+                      ? filteredNetBalance
+                      : (dashboardAnalytics?.balance ?? netBalance)
+                  ).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                 </div>
+
                 <span style={ui.statSub}>Current cash reserve</span>
               </div>
 
+              {/* Savings Allocated */}
               <div style={ui.statCard}>
                 <div style={ui.statHeader}>
                   <span style={ui.statTitle}>Savings Allocated</span>
                   <span style={ui.statIconPurple}>🎯</span>
                 </div>
+
                 <div style={{ ...ui.statAmount, color: '#7c3aed' }}>
-                  ₹{totalSavedGoals.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                  ₹{(
+                    savingsAnalytics?.total_saved ?? totalSavedGoals
+                  ).toLocaleString('en-IN', {
+                    minimumFractionDigits: 2,
+                  })}
                 </div>
+
                 <span style={ui.statSub}>
                   {isStudentTier
                     ? `${activeGoalsCount}/3 Student goal slots used`
@@ -1797,10 +2210,89 @@ export default function App() {
                 </div>
               </section>
 
+
+              {financialReports && (
+                <section style={ui.card}>
+                  <h3 style={ui.cardTitle}>Financial Report Summary</h3>
+
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+                      gap: '16px',
+                      marginTop: '20px',
+                    }}
+                  >
+                    {[
+                      ['Total Income', financialReports.total_income],
+                      ['Total Expenses', financialReports.total_expenses],
+                      ['Net Balance', financialReports.net_balance],
+                      ['Total Transactions', financialReports.total_transactions],
+                    ].map(([label, value]) => (
+                      <div
+                        key={label}
+                        style={{
+                          padding: '18px',
+                          borderRadius: '12px',
+                          background: '#f8fafc',
+                          border: '1px solid #e2e8f0',
+                        }}
+                      >
+                        <p style={{ color: '#64748b', fontSize: '13px' }}>
+                          {label}
+                        </p>
+
+                        <h3 style={{ fontSize: '22px' }}>
+                          {label === 'Total Transactions'
+                            ? value
+                            : `₹${Number(value || 0).toLocaleString('en-IN', {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })}`}
+                        </h3>
+                      </div>
+                    ))}
+                  </div>
+
+                  <h4 style={{ marginTop: '24px' }}>
+                    Category-wise Expenses
+                  </h4>
+
+                  {financialReports.category_summary?.length > 0 ? (
+                    financialReports.category_summary.map((item, index) => (
+                      <div
+                        key={`${item.category}-${index}`}
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          padding: '12px 0',
+                          borderBottom: '1px solid #e2e8f0',
+                        }}
+                      >
+                        <span>{item.category}</span>
+                        <strong>
+                          ₹{Number(item.total).toFixed(2)}
+                        </strong>
+                      </div>
+                    ))
+                  ) : (
+                    <p style={{ color: '#64748b' }}>
+                      No expense categories found for this period.
+                    </p>
+                  )}
+                </section>
+              )}
+
+
+
+
+
               <section style={ui.card}>
                 <div style={ui.cardHeader}>
                   <div>
                     <h3 style={ui.cardTitle}>Recent Daily Transactions</h3>
+
+
                     <p style={ui.cardSubtitle}>Your unified timeline of inflows and outflows</p>
                   </div>
                   <span style={ui.badgeSlate}>Latest {recentTransactions.length} records</span>
@@ -1885,6 +2377,33 @@ export default function App() {
           {/* ==================================================== */}
           {activeTab === 'analytics' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              {analyticsLoading && (
+                <div style={ui.card}>
+                  <p style={{ color: '#4f46e5', margin: 0 }}>
+                    Loading analytics from the server...
+                  </p>
+                </div>
+              )}
+
+              {analyticsError && (
+                <div
+                  style={{
+                    ...ui.card,
+                    border: '1px solid #fecaca',
+                    background: '#fef2f2',
+                    color: '#b91c1c',
+                  }}
+                >
+                  {analyticsError}
+                  <button
+                    type="button"
+                    style={{ ...ui.btnSecondary, marginLeft: '12px' }}
+                    onClick={fetchAnalytics}
+                  >
+                    Retry
+                  </button>
+                </div>
+              )}
               <section style={ui.card}>
                 <div
                   style={{
@@ -1911,11 +2430,11 @@ export default function App() {
                         style={
                           dateFilterMode === mode.id
                             ? {
-                                ...ui.btnSecondary,
-                                backgroundColor: '#4f46e5',
-                                color: '#ffffff',
-                                borderColor: '#4f46e5',
-                              }
+                              ...ui.btnSecondary,
+                              backgroundColor: '#4f46e5',
+                              color: '#ffffff',
+                              borderColor: '#4f46e5',
+                            }
                             : ui.btnSecondary
                         }
                         onClick={() => setDateFilterMode(mode.id)}
