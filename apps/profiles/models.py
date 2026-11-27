@@ -19,5 +19,8 @@ class Profile(Time_Stamped_Model):
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_or_save_user_profile(sender, instance, created, **kwargs):
+def create_or_save_user_profile(sender, instance, created, raw=False, **kwargs):
+    if raw:
+        return
+
     Profile.objects.get_or_create(user=instance)

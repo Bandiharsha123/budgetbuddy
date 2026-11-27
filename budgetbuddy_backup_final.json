@@ -1,0 +1,1294 @@
+[
+{
+  "model": "sessions.session",
+  "pk": "opbesdvdl1dwakeq9epqnz6d87ceydqg",
+  "fields": {
+    "session_data": ".eJxVjDkOwjAQAP-yNbJifG5K-rzBWh-LA8iR4qRC_B1FSgHtzGjeEGjfath7WcOcYQQNl18WKT1LO0R-ULsvIi1tW-cojkSctotpyeV1O9u_QaVeYYQhau0lo2cscjDK6ytrhck7MsgOjXXOUCbtFTFamZQkFS2yM4rYEXy-vw43PA:1xLyMb:n8j_95edQQWTUqFHWRs39_8WA3WXD_Ww9zjiPAvnKN8",
+    "expire_date": "2026-11-11T07:46:25.982Z"
+  }
+},
+{
+  "model": "authentication.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$k9PR8Q2iZUnnJIt9cv9owU$RUvdcREZAPbapG1ibjg2wGTpnZDCio59Qkl0p0o1qdw=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student_test",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-19T10:38:55.310Z",
+    "email": "student@example.com",
+    "role": "STUDENT",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "authentication.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$icNd0EEw4Iv2twdscSRd7K$p0o6db1X2ZAoiyUlVrK7X3SlrElp9oFtOUvjHO8GahQ=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "alice_student",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-19T11:27:04.838Z",
+    "email": "alice@test.com",
+    "role": "STUDENT",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "authentication.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$G4F0YCggVIbiQhc6wNNcrr$RnFlJBTJe9nosCPuUlUecpQn9VgwP/AS3DiSPtYHPsI=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "harsha_test",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-26T11:47:16.666Z",
+    "email": "harsha@test.com",
+    "role": "STUDENT",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "authentication.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$6lDU7UHyQ9MlBWQUie2egZ$PZk9qy4VjjNgmtbVDxaSc0/ac1antBA3WoVF2g+TfyU=",
+    "last_login": "2026-10-28T07:46:25.975Z",
+    "is_superuser": true,
+    "username": "harsha",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-10-28T07:45:44.461Z",
+    "email": "",
+    "role": "STUDENT",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "authentication.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$pJjfoJ52Kk2B3nPvKFR216$TgJpioXM4QwaETfgo1y5DXc2j9EsG5tw11g2wpUvaTg=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "dhana",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-29T05:43:36.257Z",
+    "email": "harshabandi31@gmail.com",
+    "role": "ADMIN",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "authentication.user",
+  "pk": 6,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$wKMUOkPLOZFRDbePUEgaKV$m6gFGKOgeeOdIzacI6Enj1nZ5WrNthbLajmYFc5NjIg=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "hari",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-11-25T09:58:03.152Z",
+    "email": "hari@gmail.com",
+    "role": "ADMIN",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "authentication.user",
+  "pk": 7,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$iKD6flByegSyeQHL7dyPyb$o4S2OEh0Q/O+wN3wvsu8vvFJa1f4D1axx8y1DbMmXow=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "harib",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-11-25T09:58:43.504Z",
+    "email": "hari1@gmail.com",
+    "role": "STUDENT",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "authentication.user",
+  "pk": 8,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$ejNxbnljZOKQtSMdwlMA5U$jGF/EFVF16Vg0XVs8VMUTPv6iD0TnvuI3xhDL/ejgbM=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "vamsi",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-11-25T09:59:21.241Z",
+    "email": "vamsi@gmail.com",
+    "role": "STUDENT",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "authentication.user",
+  "pk": 9,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$fFhd9iAwEk6YVM2toYtQWS$cyxzn3FA90OKfpz3Rsxr7lHhSD0cqavlhAYWzPypAjM=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "soudhaa",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-11-25T10:13:31.427Z",
+    "email": "soudha@test.com",
+    "role": "STUDENT",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "authentication.user",
+  "pk": 10,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$UGfONXiY5fZMIY8DDM9Jek$DFLFWHZubkCNpBSX31DgKWpTbthPHqhoqu79gFxaoEk=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "harsha_bandi",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-11-25T11:07:25.298Z",
+    "email": "bandiharshavardhanreddy123@gmail.com",
+    "role": "PREMIUM",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "authentication.user",
+  "pk": 11,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$caKnUeReUW2xGsAf5rkZDL$rGx/eZoGwTBN+UX3WnX0LhkNRaAiEHJ+wtEKr2xDH/k=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "gnana",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-11-26T12:36:50.554Z",
+    "email": "gnanadevasya@gmail.com",
+    "role": "STUDENT",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "profiles.profile",
+  "pk": 1,
+  "fields": {
+    "created_at": "2026-10-19T10:38:56.985Z",
+    "updated_at": "2026-10-19T10:38:56.985Z",
+    "user": 1,
+    "monthly_income": "0.00",
+    "financial_preferences": {},
+    "fcm_token": null
+  }
+},
+{
+  "model": "profiles.profile",
+  "pk": 2,
+  "fields": {
+    "created_at": "2026-10-19T11:27:06.436Z",
+    "updated_at": "2026-11-25T11:04:46.242Z",
+    "user": 2,
+    "monthly_income": "0.00",
+    "financial_preferences": {},
+    "fcm_token": "dK0X5m0Cwi976Ahz8yXTJb:APA91bEfwlfIokBUuXMaUAu2sx6HPkbWjPV9BNOmcLKr_g0oNjYbPmcUVFMGzGDUPMkCwdrChj_TbaYBHRFKwnLJQ2k7EnyVyLQipcrpowHWBILkm20PJnA"
+  }
+},
+{
+  "model": "profiles.profile",
+  "pk": 3,
+  "fields": {
+    "created_at": "2026-10-26T11:47:18.862Z",
+    "updated_at": "2026-10-26T11:47:18.862Z",
+    "user": 3,
+    "monthly_income": "0.00",
+    "financial_preferences": {},
+    "fcm_token": null
+  }
+},
+{
+  "model": "profiles.profile",
+  "pk": 4,
+  "fields": {
+    "created_at": "2026-10-29T05:43:38.326Z",
+    "updated_at": "2026-11-25T11:03:36.527Z",
+    "user": 5,
+    "monthly_income": "15000.00",
+    "financial_preferences": {
+      "currency": "INR",
+      "alert_threshold_percent": 80,
+      "monthly_report_notifications": true
+    },
+    "fcm_token": "dK0X5m0Cwi976Ahz8yXTJb:APA91bEfwlfIokBUuXMaUAu2sx6HPkbWjPV9BNOmcLKr_g0oNjYbPmcUVFMGzGDUPMkCwdrChj_TbaYBHRFKwnLJQ2k7EnyVyLQipcrpowHWBILkm20PJnA"
+  }
+},
+{
+  "model": "profiles.profile",
+  "pk": 5,
+  "fields": {
+    "created_at": "2026-11-25T09:58:05.295Z",
+    "updated_at": "2026-11-25T09:58:05.295Z",
+    "user": 6,
+    "monthly_income": "0.00",
+    "financial_preferences": {},
+    "fcm_token": null
+  }
+},
+{
+  "model": "profiles.profile",
+  "pk": 6,
+  "fields": {
+    "created_at": "2026-11-25T09:58:45.627Z",
+    "updated_at": "2026-11-25T09:58:45.627Z",
+    "user": 7,
+    "monthly_income": "0.00",
+    "financial_preferences": {},
+    "fcm_token": null
+  }
+},
+{
+  "model": "profiles.profile",
+  "pk": 7,
+  "fields": {
+    "created_at": "2026-11-25T09:59:23.403Z",
+    "updated_at": "2026-11-25T09:59:23.403Z",
+    "user": 8,
+    "monthly_income": "0.00",
+    "financial_preferences": {},
+    "fcm_token": "dK0X5m0Cwi976Ahz8yXTJb:APA91bEfwlfIokBUuXMaUAu2sx6HPkbWjPV9BNOmcLKr_g0oNjYbPmcUVFMGzGDUPMkCwdrChj_TbaYBHRFKwnLJQ2k7EnyVyLQipcrpowHWBILkm20PJnA"
+  }
+},
+{
+  "model": "profiles.profile",
+  "pk": 8,
+  "fields": {
+    "created_at": "2026-11-25T10:13:33.589Z",
+    "updated_at": "2026-11-25T11:00:04.015Z",
+    "user": 9,
+    "monthly_income": "0.00",
+    "financial_preferences": {},
+    "fcm_token": "dK0X5m0Cwi976Ahz8yXTJb:APA91bEfwlfIokBUuXMaUAu2sx6HPkbWjPV9BNOmcLKr_g0oNjYbPmcUVFMGzGDUPMkCwdrChj_TbaYBHRFKwnLJQ2k7EnyVyLQipcrpowHWBILkm20PJnA"
+  }
+},
+{
+  "model": "profiles.profile",
+  "pk": 9,
+  "fields": {
+    "created_at": "2026-11-25T11:07:27.406Z",
+    "updated_at": "2026-11-25T11:07:27.406Z",
+    "user": 10,
+    "monthly_income": "0.00",
+    "financial_preferences": {},
+    "fcm_token": "dK0X5m0Cwi976Ahz8yXTJb:APA91bEfwlfIokBUuXMaUAu2sx6HPkbWjPV9BNOmcLKr_g0oNjYbPmcUVFMGzGDUPMkCwdrChj_TbaYBHRFKwnLJQ2k7EnyVyLQipcrpowHWBILkm20PJnA"
+  }
+},
+{
+  "model": "profiles.profile",
+  "pk": 10,
+  "fields": {
+    "created_at": "2026-11-26T12:36:52.639Z",
+    "updated_at": "2026-11-26T12:36:52.639Z",
+    "user": 11,
+    "monthly_income": "0.00",
+    "financial_preferences": {},
+    "fcm_token": "dK0X5m0Cwi976Ahz8yXTJb:APA91bEfwlfIokBUuXMaUAu2sx6HPkbWjPV9BNOmcLKr_g0oNjYbPmcUVFMGzGDUPMkCwdrChj_TbaYBHRFKwnLJQ2k7EnyVyLQipcrpowHWBILkm20PJnA"
+  }
+},
+{
+  "model": "expenses.expense",
+  "pk": 2,
+  "fields": {
+    "created_at": "2026-10-28T10:34:59.667Z",
+    "updated_at": "2026-10-28T10:34:59.667Z",
+    "user": 2,
+    "amount": "500.00",
+    "category": "SHOPPING",
+    "date": "2026-10-28",
+    "description": ""
+  }
+},
+{
+  "model": "expenses.expense",
+  "pk": 3,
+  "fields": {
+    "created_at": "2026-11-02T06:52:34.546Z",
+    "updated_at": "2026-11-02T06:52:34.546Z",
+    "user": 5,
+    "amount": "1300.00",
+    "category": "FOOD",
+    "date": "2026-11-02",
+    "description": ""
+  }
+},
+{
+  "model": "expenses.expense",
+  "pk": 4,
+  "fields": {
+    "created_at": "2026-11-02T06:52:43.432Z",
+    "updated_at": "2026-11-02T11:44:10.648Z",
+    "user": 5,
+    "amount": "150.00",
+    "category": "FOOD",
+    "date": "2026-11-02",
+    "description": ""
+  }
+},
+{
+  "model": "expenses.expense",
+  "pk": 5,
+  "fields": {
+    "created_at": "2026-11-02T07:28:33.176Z",
+    "updated_at": "2026-11-02T07:28:33.176Z",
+    "user": 5,
+    "amount": "150.00",
+    "category": "SHOPPING",
+    "date": "2026-11-02",
+    "description": ""
+  }
+},
+{
+  "model": "expenses.expense",
+  "pk": 8,
+  "fields": {
+    "created_at": "2026-11-11T06:51:22.111Z",
+    "updated_at": "2026-11-11T06:51:22.111Z",
+    "user": 5,
+    "amount": "350.00",
+    "category": "FOOD",
+    "date": "2026-11-11",
+    "description": ""
+  }
+},
+{
+  "model": "expenses.expense",
+  "pk": 9,
+  "fields": {
+    "created_at": "2026-11-11T06:51:35.946Z",
+    "updated_at": "2026-11-11T06:51:35.946Z",
+    "user": 5,
+    "amount": "69.98",
+    "category": "FOOD",
+    "date": "2026-11-11",
+    "description": ""
+  }
+},
+{
+  "model": "expenses.expense",
+  "pk": 10,
+  "fields": {
+    "created_at": "2026-11-11T06:51:50.599Z",
+    "updated_at": "2026-11-11T06:51:50.599Z",
+    "user": 5,
+    "amount": "100.00",
+    "category": "FOOD",
+    "date": "2026-11-11",
+    "description": ""
+  }
+},
+{
+  "model": "expenses.expense",
+  "pk": 13,
+  "fields": {
+    "created_at": "2026-11-11T06:53:02.351Z",
+    "updated_at": "2026-11-11T06:53:02.352Z",
+    "user": 5,
+    "amount": "2000.00",
+    "category": "FOOD",
+    "date": "2026-11-11",
+    "description": ""
+  }
+},
+{
+  "model": "expenses.expense",
+  "pk": 21,
+  "fields": {
+    "created_at": "2026-11-23T11:53:57.298Z",
+    "updated_at": "2026-11-23T11:53:57.298Z",
+    "user": 5,
+    "amount": "5000.00",
+    "category": "FOOD",
+    "date": "2026-11-23",
+    "description": ""
+  }
+},
+{
+  "model": "expenses.expense",
+  "pk": 22,
+  "fields": {
+    "created_at": "2026-11-23T11:54:18.925Z",
+    "updated_at": "2026-11-23T11:54:18.925Z",
+    "user": 5,
+    "amount": "5000.00",
+    "category": "FOOD",
+    "date": "2026-11-23",
+    "description": ""
+  }
+},
+{
+  "model": "expenses.expense",
+  "pk": 23,
+  "fields": {
+    "created_at": "2026-11-24T08:05:04.326Z",
+    "updated_at": "2026-11-24T08:05:04.326Z",
+    "user": 5,
+    "amount": "1030.00",
+    "category": "FOOD",
+    "date": "2026-11-24",
+    "description": ""
+  }
+},
+{
+  "model": "expenses.expense",
+  "pk": 27,
+  "fields": {
+    "created_at": "2026-11-24T08:51:34.879Z",
+    "updated_at": "2026-11-24T08:51:34.879Z",
+    "user": 5,
+    "amount": "4999.00",
+    "category": "TRAVEL",
+    "date": "2026-11-24",
+    "description": ""
+  }
+},
+{
+  "model": "expenses.expense",
+  "pk": 29,
+  "fields": {
+    "created_at": "2026-11-24T09:06:44.621Z",
+    "updated_at": "2026-11-24T09:06:44.621Z",
+    "user": 5,
+    "amount": "5000.00",
+    "category": "SHOPPING",
+    "date": "2026-11-24",
+    "description": ""
+  }
+},
+{
+  "model": "expenses.expense",
+  "pk": 32,
+  "fields": {
+    "created_at": "2026-11-24T11:02:48.117Z",
+    "updated_at": "2026-11-24T11:02:48.117Z",
+    "user": 5,
+    "amount": "850.00",
+    "category": "FOOD",
+    "date": "2026-11-24",
+    "description": ""
+  }
+},
+{
+  "model": "expenses.expense",
+  "pk": 33,
+  "fields": {
+    "created_at": "2026-11-24T11:02:49.954Z",
+    "updated_at": "2026-11-24T11:02:49.954Z",
+    "user": 5,
+    "amount": "850.00",
+    "category": "FOOD",
+    "date": "2026-11-24",
+    "description": ""
+  }
+},
+{
+  "model": "expenses.expense",
+  "pk": 34,
+  "fields": {
+    "created_at": "2026-11-24T11:03:07.188Z",
+    "updated_at": "2026-11-24T11:03:07.188Z",
+    "user": 5,
+    "amount": "850.00",
+    "category": "ENTERTAINMENT",
+    "date": "2026-11-24",
+    "description": ""
+  }
+},
+{
+  "model": "expenses.expense",
+  "pk": 35,
+  "fields": {
+    "created_at": "2026-11-24T13:55:48.575Z",
+    "updated_at": "2026-11-24T13:55:48.576Z",
+    "user": 5,
+    "amount": "500.00",
+    "category": "FOOD",
+    "date": "2026-12-01",
+    "description": ""
+  }
+},
+{
+  "model": "expenses.expense",
+  "pk": 36,
+  "fields": {
+    "created_at": "2026-11-24T13:56:32.831Z",
+    "updated_at": "2026-11-24T13:56:32.831Z",
+    "user": 5,
+    "amount": "400.00",
+    "category": "EDUCATION",
+    "date": "2026-11-24",
+    "description": ""
+  }
+},
+{
+  "model": "expenses.expense",
+  "pk": 37,
+  "fields": {
+    "created_at": "2026-11-24T13:56:34.106Z",
+    "updated_at": "2026-11-24T13:56:34.106Z",
+    "user": 5,
+    "amount": "400.00",
+    "category": "EDUCATION",
+    "date": "2026-11-24",
+    "description": ""
+  }
+},
+{
+  "model": "incomes.income",
+  "pk": 1,
+  "fields": {
+    "created_at": "2026-10-28T10:52:15.068Z",
+    "updated_at": "2026-10-28T10:52:15.068Z",
+    "user": 2,
+    "amount": "5000.00",
+    "source": "POCKET_MONEY",
+    "date": "2026-10-28",
+    "description": ""
+  }
+},
+{
+  "model": "incomes.income",
+  "pk": 2,
+  "fields": {
+    "created_at": "2026-11-02T06:52:54.327Z",
+    "updated_at": "2026-11-02T06:52:54.327Z",
+    "user": 5,
+    "amount": "10000.00",
+    "source": "POCKET_MONEY",
+    "date": "2026-11-02",
+    "description": ""
+  }
+},
+{
+  "model": "incomes.income",
+  "pk": 3,
+  "fields": {
+    "created_at": "2026-11-02T07:28:24.235Z",
+    "updated_at": "2026-11-02T07:28:24.235Z",
+    "user": 5,
+    "amount": "1000.00",
+    "source": "FREELANCE",
+    "date": "2026-11-02",
+    "description": ""
+  }
+},
+{
+  "model": "incomes.income",
+  "pk": 4,
+  "fields": {
+    "created_at": "2026-11-16T11:12:13.146Z",
+    "updated_at": "2026-11-16T11:12:13.146Z",
+    "user": 5,
+    "amount": "15000.00",
+    "source": "POCKET_MONEY",
+    "date": "2026-11-16",
+    "description": ""
+  }
+},
+{
+  "model": "incomes.income",
+  "pk": 5,
+  "fields": {
+    "created_at": "2026-11-24T14:02:07.017Z",
+    "updated_at": "2026-11-24T14:02:07.017Z",
+    "user": 5,
+    "amount": "10000.00",
+    "source": "OTHER",
+    "date": "2026-11-24",
+    "description": ""
+  }
+},
+{
+  "model": "budgets.budget",
+  "pk": 10,
+  "fields": {
+    "created_at": "2026-11-24T08:00:45.902Z",
+    "updated_at": "2026-11-24T08:00:45.902Z",
+    "user": 5,
+    "category": "FOOD",
+    "monthly_limit": "15000.00",
+    "month": 11,
+    "year": 2026
+  }
+},
+{
+  "model": "budgets.budget",
+  "pk": 11,
+  "fields": {
+    "created_at": "2026-11-24T08:48:20.911Z",
+    "updated_at": "2026-11-24T08:48:20.911Z",
+    "user": 5,
+    "category": "TRAVEL",
+    "monthly_limit": "5000.00",
+    "month": 11,
+    "year": 2026
+  }
+},
+{
+  "model": "budgets.budget",
+  "pk": 12,
+  "fields": {
+    "created_at": "2026-11-24T09:06:19.960Z",
+    "updated_at": "2026-11-24T09:06:19.960Z",
+    "user": 5,
+    "category": "SHOPPING",
+    "monthly_limit": "5000.00",
+    "month": 11,
+    "year": 2026
+  }
+},
+{
+  "model": "budgets.budget",
+  "pk": 14,
+  "fields": {
+    "created_at": "2026-11-24T11:02:36.418Z",
+    "updated_at": "2026-11-24T11:02:36.418Z",
+    "user": 5,
+    "category": "ENTERTAINMENT",
+    "monthly_limit": "1000.00",
+    "month": 11,
+    "year": 2026
+  }
+},
+{
+  "model": "budgets.budget",
+  "pk": 15,
+  "fields": {
+    "created_at": "2026-11-24T13:56:21.979Z",
+    "updated_at": "2026-11-24T13:56:21.979Z",
+    "user": 5,
+    "category": "EDUCATION",
+    "monthly_limit": "500.00",
+    "month": 11,
+    "year": 2026
+  }
+},
+{
+  "model": "goals.savingsgoal",
+  "pk": 2,
+  "fields": {
+    "created_at": "2026-11-24T02:02:19.020Z",
+    "updated_at": "2026-11-24T02:02:38.143Z",
+    "user": 5,
+    "title": "japan Trip",
+    "target_amount": "10000.00",
+    "current_amount": "5500.00",
+    "target_date": "2026-12-31"
+  }
+},
+{
+  "model": "goals.savingsgoal",
+  "pk": 3,
+  "fields": {
+    "created_at": "2026-11-24T02:16:41.440Z",
+    "updated_at": "2026-11-26T14:11:20.451Z",
+    "user": 5,
+    "title": "head phones",
+    "target_amount": "1000.00",
+    "current_amount": "1750.00",
+    "target_date": "2027-01-24"
+  }
+},
+{
+  "model": "goals.savingsgoal",
+  "pk": 4,
+  "fields": {
+    "created_at": "2026-11-24T02:18:31.998Z",
+    "updated_at": "2026-11-24T02:19:02.436Z",
+    "user": 5,
+    "title": "laptop",
+    "target_amount": "10000.00",
+    "current_amount": "10000.00",
+    "target_date": "2027-01-24"
+  }
+},
+{
+  "model": "goals.savingsgoal",
+  "pk": 5,
+  "fields": {
+    "created_at": "2026-11-24T02:22:10.647Z",
+    "updated_at": "2026-11-24T02:22:40.043Z",
+    "user": 5,
+    "title": "happ",
+    "target_amount": "5000.00",
+    "current_amount": "5000.00",
+    "target_date": "2026-12-30"
+  }
+},
+{
+  "model": "goals.savingsgoal",
+  "pk": 7,
+  "fields": {
+    "created_at": "2026-11-24T06:44:26.116Z",
+    "updated_at": "2026-11-24T06:44:40.186Z",
+    "user": 5,
+    "title": "lap",
+    "target_amount": "5000.00",
+    "current_amount": "100.00",
+    "target_date": "2026-12-28"
+  }
+},
+{
+  "model": "goals.savingsgoal",
+  "pk": 8,
+  "fields": {
+    "created_at": "2026-11-24T07:12:39.185Z",
+    "updated_at": "2026-11-24T07:12:39.185Z",
+    "user": 5,
+    "title": "Deadline Test",
+    "target_amount": "10000.00",
+    "current_amount": "2000.00",
+    "target_date": "2026-11-29"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 1,
+  "fields": {
+    "created_at": "2026-11-11T06:50:59.241Z",
+    "updated_at": "2026-11-11T06:50:59.241Z",
+    "user": 5,
+    "notification_type": "BUDGET_WARNING",
+    "title": "Budget Warning: FOOD",
+    "message": "You have reached 97.5% of your monthly limit for FOOD (₹1,950.00 of ₹2,000.00).",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 2,
+  "fields": {
+    "created_at": "2026-11-11T06:53:02.368Z",
+    "updated_at": "2026-11-11T06:53:02.368Z",
+    "user": 5,
+    "notification_type": "BUDGET_EXCEEDED",
+    "title": "Budget Exceeded: FOOD",
+    "message": "You have spent ₹3,969.98 on FOOD, exceeding your monthly limit of ₹2,000.00 (198.5% used).",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 3,
+  "fields": {
+    "created_at": "2026-11-11T06:55:56.840Z",
+    "updated_at": "2026-11-11T06:55:56.840Z",
+    "user": 5,
+    "notification_type": "BUDGET_WARNING",
+    "title": "Budget Warning: TRAVEL",
+    "message": "You have reached 80.0% of your monthly limit for TRAVEL (₹8,000.00 of ₹10,000.00).",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 4,
+  "fields": {
+    "created_at": "2026-11-11T06:56:13.922Z",
+    "updated_at": "2026-11-11T06:56:13.922Z",
+    "user": 5,
+    "notification_type": "BUDGET_EXCEEDED",
+    "title": "Budget Exceeded: TRAVEL",
+    "message": "You have spent ₹10,000.00 on TRAVEL, exceeding your monthly limit of ₹10,000.00 (100.0% used).",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 5,
+  "fields": {
+    "created_at": "2026-11-16T11:14:11.386Z",
+    "updated_at": "2026-11-16T11:14:11.386Z",
+    "user": 5,
+    "notification_type": "GOAL_MILESTONE",
+    "title": "Goal Reached: Watch",
+    "message": "Congratulations! You reached your savings target of ₹10,000.00 for 'Watch'.",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 6,
+  "fields": {
+    "created_at": "2026-11-20T11:58:23.616Z",
+    "updated_at": "2026-11-20T11:58:23.616Z",
+    "user": 5,
+    "notification_type": "BUDGET_WARNING",
+    "title": "Budget Warning: FOOD",
+    "message": "You have reached 89.7% of your monthly limit for FOOD (₹8,969.98 of ₹10,000.00).",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 7,
+  "fields": {
+    "created_at": "2026-11-23T11:33:09.341Z",
+    "updated_at": "2026-11-23T11:33:09.341Z",
+    "user": 5,
+    "notification_type": "BUDGET_WARNING",
+    "title": "Budget Warning: FOOD",
+    "message": "You have reached 89.7% of your monthly limit for FOOD (₹8,969.98 of ₹10,000.00).",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 8,
+  "fields": {
+    "created_at": "2026-11-23T11:54:18.947Z",
+    "updated_at": "2026-11-23T11:54:18.947Z",
+    "user": 5,
+    "notification_type": "BUDGET_EXCEEDED",
+    "title": "Budget Exceeded: FOOD",
+    "message": "You have spent ₹13,969.98 on FOOD, exceeding your monthly limit of ₹10,000.00 (139.7% used).",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 9,
+  "fields": {
+    "created_at": "2026-11-24T02:17:11.005Z",
+    "updated_at": "2026-11-24T02:17:11.005Z",
+    "user": 5,
+    "notification_type": "GOAL_MILESTONE",
+    "title": "Goal Reached: head phones",
+    "message": "Congratulations! You reached your savings target of ₹1,000.00 for 'head phones'.",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 10,
+  "fields": {
+    "created_at": "2026-11-24T02:19:02.449Z",
+    "updated_at": "2026-11-24T02:19:02.449Z",
+    "user": 5,
+    "notification_type": "GOAL_MILESTONE",
+    "title": "Goal Reached: laptop",
+    "message": "Congratulations! You reached your savings target of ₹10,000.00 for 'laptop'.",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 11,
+  "fields": {
+    "created_at": "2026-11-24T02:22:28.377Z",
+    "updated_at": "2026-11-24T02:22:28.377Z",
+    "user": 5,
+    "notification_type": "GOAL_MILESTONE",
+    "title": "Goal Reached: happ",
+    "message": "Congratulations! You reached your savings target of ₹5,000.00 for 'happ'.",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 12,
+  "fields": {
+    "created_at": "2026-11-24T06:16:32.694Z",
+    "updated_at": "2026-11-24T06:16:32.694Z",
+    "user": 5,
+    "notification_type": "GOAL_MILESTONE",
+    "title": "25% Milestone: head phones",
+    "message": "Great start! You've reached 25% of your savings goal.",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 13,
+  "fields": {
+    "created_at": "2026-11-24T06:16:55.753Z",
+    "updated_at": "2026-11-24T06:16:55.753Z",
+    "user": 5,
+    "notification_type": "GOAL_MILESTONE",
+    "title": "50% Milestone: head phones",
+    "message": "Amazing! You've reached 50% of your savings goal.",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 14,
+  "fields": {
+    "created_at": "2026-11-24T06:17:08.392Z",
+    "updated_at": "2026-11-24T06:17:08.392Z",
+    "user": 5,
+    "notification_type": "GOAL_MILESTONE",
+    "title": "75% Milestone: head phones",
+    "message": "Almost there! You've reached 75% of your savings goal.",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 15,
+  "fields": {
+    "created_at": "2026-11-24T06:43:24.737Z",
+    "updated_at": "2026-11-24T06:43:24.737Z",
+    "user": 5,
+    "notification_type": "GOAL_MILESTONE",
+    "title": "25% Milestone: lap",
+    "message": "Great start! You've reached 25% of your savings goal.",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 16,
+  "fields": {
+    "created_at": "2026-11-24T06:43:24.749Z",
+    "updated_at": "2026-11-24T06:43:24.749Z",
+    "user": 5,
+    "notification_type": "GOAL_MILESTONE",
+    "title": "50% Milestone: lap",
+    "message": "Amazing! You've reached 50% of your savings goal.",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 17,
+  "fields": {
+    "created_at": "2026-11-24T06:43:24.759Z",
+    "updated_at": "2026-11-24T06:43:24.759Z",
+    "user": 5,
+    "notification_type": "GOAL_MILESTONE",
+    "title": "75% Milestone: lap",
+    "message": "Almost there! You've reached 75% of your savings goal.",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 18,
+  "fields": {
+    "created_at": "2026-11-24T06:43:24.769Z",
+    "updated_at": "2026-11-24T06:43:24.769Z",
+    "user": 5,
+    "notification_type": "GOAL_MILESTONE",
+    "title": "100% Milestone: lap",
+    "message": "Congratulations! You completed your savings goal: 'lap'.",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 19,
+  "fields": {
+    "created_at": "2026-11-24T07:12:39.208Z",
+    "updated_at": "2026-11-24T07:12:39.208Z",
+    "user": 5,
+    "notification_type": "GOAL_DEADLINE",
+    "title": "Deadline Approaching: Deadline Test",
+    "message": "Your goal 'Deadline Test' is due in 5 day(s). You still need ₹8,000.00.",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 20,
+  "fields": {
+    "created_at": "2026-11-24T08:05:04.342Z",
+    "updated_at": "2026-11-24T08:05:04.342Z",
+    "user": 5,
+    "notification_type": "BUDGET_WARNING",
+    "title": "Budget Warning: FOOD",
+    "message": "You have reached 100.0% of your monthly limit for FOOD (₹14,999.98 of ₹15,000.00).",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 21,
+  "fields": {
+    "created_at": "2026-11-24T08:50:02.971Z",
+    "updated_at": "2026-11-24T08:50:02.971Z",
+    "user": 5,
+    "notification_type": "BUDGET_EXCEEDED",
+    "title": "Budget Exceeded: TRAVEL",
+    "message": "You have spent ₹5,000.00 on TRAVEL, exceeding your monthly limit of ₹5,000.00 (100.0% used).",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 22,
+  "fields": {
+    "created_at": "2026-11-24T08:51:34.900Z",
+    "updated_at": "2026-11-24T08:51:34.900Z",
+    "user": 5,
+    "notification_type": "BUDGET_WARNING",
+    "title": "Budget Warning: TRAVEL",
+    "message": "You have reached 100.0% of your monthly limit for TRAVEL (₹4,999.00 of ₹5,000.00).",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 23,
+  "fields": {
+    "created_at": "2026-11-24T09:06:44.644Z",
+    "updated_at": "2026-11-24T09:06:44.644Z",
+    "user": 5,
+    "notification_type": "BUDGET_EXCEEDED",
+    "title": "Budget Exceeded: SHOPPING",
+    "message": "You have spent ₹5,150.00 on SHOPPING, exceeding your monthly limit of ₹5,000.00 (103.0% used).",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 24,
+  "fields": {
+    "created_at": "2026-11-24T09:54:25.840Z",
+    "updated_at": "2026-11-24T09:54:25.840Z",
+    "user": 1,
+    "notification_type": "GENERAL",
+    "title": "BudgetBuddy Integration Test",
+    "message": "Your email notification integration is working successfully.",
+    "is_read": false,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 25,
+  "fields": {
+    "created_at": "2026-11-24T10:01:56.728Z",
+    "updated_at": "2026-11-24T10:01:56.728Z",
+    "user": 5,
+    "notification_type": "GOAL_MILESTONE",
+    "title": "25% Milestone: Email Integration Test",
+    "message": "Great start! You've reached 25% of your savings goal.",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 26,
+  "fields": {
+    "created_at": "2026-11-24T11:02:48.130Z",
+    "updated_at": "2026-11-24T11:02:48.130Z",
+    "user": 5,
+    "notification_type": "BUDGET_EXCEEDED",
+    "title": "Budget Exceeded: FOOD",
+    "message": "You have spent ₹15,849.98 on FOOD, exceeding your monthly limit of ₹15,000.00 (105.7% used).",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 27,
+  "fields": {
+    "created_at": "2026-11-24T11:03:07.201Z",
+    "updated_at": "2026-11-24T11:03:07.201Z",
+    "user": 5,
+    "notification_type": "BUDGET_WARNING",
+    "title": "Budget Warning: ENTERTAINMENT",
+    "message": "You have reached 85.0% of your monthly limit for ENTERTAINMENT (₹850.00 of ₹1,000.00).",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 28,
+  "fields": {
+    "created_at": "2026-11-24T13:56:32.852Z",
+    "updated_at": "2026-11-24T13:56:32.852Z",
+    "user": 5,
+    "notification_type": "BUDGET_WARNING",
+    "title": "Budget Warning: EDUCATION",
+    "message": "You have reached 80.0% of your monthly limit for EDUCATION (₹400.00 of ₹500.00).",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 29,
+  "fields": {
+    "created_at": "2026-11-24T13:56:34.130Z",
+    "updated_at": "2026-11-24T13:56:34.130Z",
+    "user": 5,
+    "notification_type": "BUDGET_EXCEEDED",
+    "title": "Budget Exceeded: EDUCATION",
+    "message": "You have spent ₹800.00 on EDUCATION, exceeding your monthly limit of ₹500.00 (160.0% used).",
+    "is_read": true,
+    "event_key": null,
+    "email_sent": false,
+    "email_sent_at": null
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 30,
+  "fields": {
+    "created_at": "2026-11-26T14:09:59.711Z",
+    "updated_at": "2026-11-26T14:09:59.711Z",
+    "user": 5,
+    "notification_type": "GOAL_MILESTONE",
+    "title": "100% Milestone: head phones",
+    "message": "Congratulations! You completed your savings goal: 'head phones'.",
+    "is_read": false,
+    "event_key": null,
+    "email_sent": true,
+    "email_sent_at": "2026-11-26T14:10:04.040Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 31,
+  "fields": {
+    "created_at": "2026-11-26T14:10:09.571Z",
+    "updated_at": "2026-11-26T14:10:09.571Z",
+    "user": 5,
+    "notification_type": "GOAL_MILESTONE",
+    "title": "Goal Achieved!",
+    "message": "Your savings goal 'head phones' has reached 100% completion. You have saved INR 1250.00 out of INR 1000.00.",
+    "is_read": false,
+    "event_key": "goal_3_milestone_100",
+    "email_sent": true,
+    "email_sent_at": "2026-11-26T14:10:12.501Z"
+  }
+}
+]

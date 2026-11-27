@@ -1,4 +1,5 @@
 from decimal import Decimal
+
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
@@ -10,14 +11,20 @@ from apps.goals.models import SavingsGoal
 from .models import Notification
 from apps.notifications.services import dispatch_notification
 
+
 @receiver(post_save, sender=Expense)
-def check_budget_thresholds(sender, instance, created, **kwargs):
+def check_budget_thresholds(sender, instance, created, raw=False, **kwargs):
     """Fires whenever an expense is logged or updated."""
+
+    # Skip signal processing during fixture imports.
+    if raw:
+        return
+
     expense_date = instance.date
     user = instance.user
-    category = instance.category    
+    category = instance.category
 
-    # Check for a matching monthly budget
+    # Check for a matching monthly budget.
     budget = Budget.objects.filter(
         user=user,
         category=category,
@@ -28,7 +35,7 @@ def check_budget_thresholds(sender, instance, created, **kwargs):
     if not budget or budget.monthly_limit <= Decimal('0.00'):
         return
 
-    # Aggregate current category spending
+    # Aggregate current category spending.
     total_spent = Expense.objects.filter(
         user=user,
         category=category,
@@ -36,11 +43,15 @@ def check_budget_thresholds(sender, instance, created, **kwargs):
         date__month=expense_date.month
     ).aggregate(total=Sum('amount'))['total'] or Decimal('0.00')
 
-    utilization = (total_spent / budget.monthly_limit) * Decimal('100.00')
+    utilization = (
+        total_spent / budget.monthly_limit
+    ) * Decimal('100.00')
 
     if utilization >= Decimal('100.00'):
-        # Avoid spamming duplicate alerts within the same calendar day
+
+        # Avoid duplicate alerts within the same calendar day.
         today = timezone.now().date()
+
         already_alerted = Notification.objects.filter(
             user=user,
             notification_type='BUDGET_EXCEEDED',
@@ -53,11 +64,19 @@ def check_budget_thresholds(sender, instance, created, **kwargs):
                 user=user,
                 notification_type='BUDGET_EXCEEDED',
                 title=f"Budget Exceeded: {category}",
-                message=f"You have spent ₹{total_spent:,.2f} on {category}, exceeding your monthly limit of ₹{budget.monthly_limit:,.2f} ({utilization:.1f}% used).",
+                message=(
+                    f"You have spent ₹{total_spent:,.2f} on {category}, "
+                    f"exceeding your monthly limit of "
+                    f"₹{budget.monthly_limit:,.2f} "
+                    f"({utilization:.1f}% used)."
+                ),
                 email_notification=True,
             )
+
     elif utilization >= Decimal('80.00'):
+
         today = timezone.now().date()
+
         already_warned = Notification.objects.filter(
             user=user,
             notification_type='BUDGET_WARNING',
@@ -70,19 +89,27 @@ def check_budget_thresholds(sender, instance, created, **kwargs):
                 user=user,
                 notification_type='BUDGET_WARNING',
                 title=f"Budget Warning: {category}",
-                message=f"You have reached {utilization:.1f}% of your monthly limit for {category} (₹{total_spent:,.2f} of ₹{budget.monthly_limit:,.2f}).",
+                message=(
+                    f"You have reached {utilization:.1f}% of your "
+                    f"monthly limit for {category} "
+                    f"(₹{total_spent:,.2f} of "
+                    f"₹{budget.monthly_limit:,.2f})."
+                ),
                 email_notification=True
             )
 
 
-
 @receiver(post_save, sender=SavingsGoal)
-def check_savings_milestones(sender, instance, **kwargs):
+def check_savings_milestones(sender, instance, raw=False, **kwargs):
     """Generate notifications for savings goal milestones."""
+
+    # Skip signal processing during fixture imports.
+    if raw:
+        return
 
     user = instance.user
 
-    # Calculate savings progress
+    # Calculate savings progress.
     if instance.target_amount <= 0:
         return
 
@@ -90,12 +117,15 @@ def check_savings_milestones(sender, instance, **kwargs):
         instance.current_amount / instance.target_amount
     ) * 100
 
-    # Savings Milestones
+    # Savings milestones.
     milestones = {
         25: "Great start! You've reached 25% of your savings goal.",
         50: "Amazing! You've reached 50% of your savings goal.",
         75: "Almost there! You've reached 75% of your savings goal.",
-        100: f"Congratulations! You completed your savings goal: '{instance.title}'."
+        100: (
+            f"Congratulations! You completed your savings goal: "
+            f"'{instance.title}'."
+        )
     }
 
     for percentage, message in milestones.items():
@@ -113,7 +143,6 @@ def check_savings_milestones(sender, instance, **kwargs):
             ).exists()
 
             if not already_notified:
-
                 dispatch_notification(
                     user=user,
                     notification_type='GOAL_MILESTONE',
@@ -121,7 +150,7 @@ def check_savings_milestones(sender, instance, **kwargs):
                     message=message
                 )
 
-    # Deadline Approaching (within 7 days)
+    # Deadline approaching (within 7 days).
     if instance.target_date and progress < 100:
 
         days_left = (
@@ -140,7 +169,6 @@ def check_savings_milestones(sender, instance, **kwargs):
             ).exists()
 
             if not already_warned:
-
                 dispatch_notification(
                     user=user,
                     notification_type='GOAL_DEADLINE',
